@@ -35,6 +35,11 @@ export const changeTodolistFilterAC = (id: string, filter: FilterValuesType) => 
     filter
 } as const)
 export const setTodolistsAC = (todolists: Array<TodolistType>) => ({type: 'SET-TODOLISTS', todolists} as const)
+export const setEntityStatusAC = (todolistId: string, entityStatus: RequestStatusType) => ({
+    type: 'SET-ENTITY-STATUS',
+    todolistId,
+    entityStatus
+} as const)
 
 // thunks
 export const fetchTodolistsTC = () => {
@@ -50,6 +55,7 @@ export const fetchTodolistsTC = () => {
 export const removeTodolistTC = (todolistId: string) => {
     return (dispatch: Dispatch<ActionsType>) => {
         dispatch(setStatusAC('loading'))
+        dispatch(setEntityStatusAC(todolistId, 'loading'))
         todolistsAPI.deleteTodolist(todolistId)
             .then((res) => {
                 dispatch(removeTodolistAC(todolistId))
@@ -89,6 +95,7 @@ type ActionsType =
     | ReturnType<typeof changeTodolistFilterAC>
     | SetTodolistsActionType
     | SetStatusACType
+    | ReturnType<typeof setEntityStatusAC>
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 
