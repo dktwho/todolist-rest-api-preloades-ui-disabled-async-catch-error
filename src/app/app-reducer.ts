@@ -15,4 +15,9 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
     }
 }
 
-type ActionsType = any
+export type SetStatusACType = ReturnType<typeof setStatusAC>
+export const setStatusAC = (status: RequestStatusType) => {
+    return {type: 'APP/SET-STATUS', status} as const
+}
+
+type ActionsType = SetStatusACType
