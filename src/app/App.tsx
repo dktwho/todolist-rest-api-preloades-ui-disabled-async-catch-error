@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import { TodolistsList } from '../features/TodolistsList/TodolistsList'
+import {TodolistsList} from '../features/TodolistsList/TodolistsList'
 import LinearProgress from '@mui/material/LinearProgress';
 
 // You can learn about the difference by reading this guide on minimizing bundle size.
@@ -12,30 +12,34 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import { Menu } from '@mui/icons-material';
+import {Menu} from '@mui/icons-material';
+import {useSelector} from 'react-redux';
+import {AppRootStateType} from "./store";
+import {RequestStatusType} from "./app-reducer";
 
 
 function App() {
+const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
 
-    return (
-        <div className="App">
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton edge="start" color="inherit" aria-label="menu">
-                        <Menu/>
-                    </IconButton>
-                    <Typography variant="h6">
-                        News
-                    </Typography>
-                    <Button color="inherit">Login</Button>
-                </Toolbar>
-                <LinearProgress color="secondary" />
-            </AppBar>
-            <Container fixed>
-                <TodolistsList/>
-            </Container>
-        </div>
-    )
+return (
+    <div className="App">
+        <AppBar position="static">
+            <Toolbar>
+                <IconButton edge="start" color="inherit" aria-label="menu">
+                    <Menu/>
+                </IconButton>
+                <Typography variant="h6">
+                    News
+                </Typography>
+                <Button color="inherit">Login</Button>
+            </Toolbar>
+            <LinearProgress color="secondary"/>
+        </AppBar>
+        <Container fixed>
+            <TodolistsList/>
+        </Container>
+    </div>
+)
 }
 
 export default App
