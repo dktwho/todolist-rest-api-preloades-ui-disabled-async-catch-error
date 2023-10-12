@@ -68,11 +68,17 @@ export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: D
             dispatch(setStatusAC('succeeded'))
         })
 }
+
+enum RESULT_CODE {
+    SUCCEDEED,
+    ERROR,
+}
 export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setStatusAC('loading'))
     todolistsAPI.createTask(todolistId, title)
         .then(res => {
-            if (res.data.resultCode === 0) {
+            if (res.data.resultCode === RESULT_CODE.SUCCEDEED) {
+                console.log(RESULT_CODE.SUCCEDEED)
                 const task = res.data.data.item
                 const action = addTaskAC(task)
                 dispatch(action)
