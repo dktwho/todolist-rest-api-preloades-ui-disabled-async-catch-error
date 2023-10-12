@@ -50,6 +50,11 @@ export type ResponseType<D = {}> = {
     data: D
 }
 
+export enum RESULT_CODE {
+    SUCCEDEED,
+    ERROR,
+}
+
 
 export enum TaskStatuses {
     New = 0,
