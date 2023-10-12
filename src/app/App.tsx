@@ -33,7 +33,7 @@ return (
                 </Typography>
                 <Button color="inherit">Login</Button>
             </Toolbar>
-            <LinearProgress color="secondary"/>
+            {status === 'loading' && <LinearProgress color="secondary"/>  }
         </AppBar>
         <Container fixed>
             <TodolistsList/>
