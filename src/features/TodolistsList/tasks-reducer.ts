@@ -11,7 +11,7 @@ import {Dispatch} from 'redux'
 import {AppRootStateType} from '../../app/store'
 import {setErrorAC, SetErrorACType, setStatusAC, SetStatusACType} from "../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import {AxiosError} from "axios";
+import axios, {AxiosError} from "axios";
 
 const initialState: TasksStateType = {}
 
@@ -80,9 +80,13 @@ export const removeTaskTC = (taskId: string, todolistId: string) => async (dispa
             handleServerAppError(res.data, dispatch)
         }
     } catch (e) {
-        //handleServerNetworkError(e, dispatch)
+        if (axios.isAxiosError<ErrorType>(e)) {
+            const errorMessage = e.response ? e.response?.data.error : e.message
+            handleServerNetworkError(errorMessage, dispatch)
+        } else {
+            handleServerNetworkError((e as Error).message, dispatch)
+        }
     }
-
 }
 
 type ErrorType = {
@@ -112,7 +116,7 @@ export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispa
             }
 
         }).catch((e: AxiosError<ErrorType>) => {
-            const errorMessage = e.response ?   e.response?.data.error : e.message
+        const errorMessage = e.response ? e.response?.data.error : e.message
         handleServerNetworkError(errorMessage, dispatch)
     })
 }
