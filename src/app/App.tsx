@@ -1,6 +1,7 @@
 import React from 'react'
 import './App.css'
 import { TodolistsList } from '../features/TodolistsList/TodolistsList'
+import LinearProgress from '@mui/material/LinearProgress';
 
 // You can learn about the difference by reading this guide on minimizing bundle size.
 // https://mui.com/guides/minimizing-bundle-size/
@@ -28,6 +29,7 @@ function App() {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
+                <LinearProgress color="secondary" />
             </AppBar>
             <Container fixed>
                 <TodolistsList/>
