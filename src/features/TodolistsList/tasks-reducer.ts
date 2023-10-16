@@ -114,7 +114,6 @@ export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispa
             } else {
                 handleServerAppError<{ item: TaskType }>(res.data, dispatch)
             }
-
         }).catch((e: AxiosError<ErrorType>) => {
         const errorMessage = e.response ? e.response?.data.error : e.message
         handleServerNetworkError(errorMessage, dispatch)
@@ -143,10 +142,15 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
 
         todolistsAPI.updateTask(todolistId, taskId, apiModel)
             .then(res => {
-                const action = updateTaskAC(taskId, domainModel, todolistId)
-                dispatch(action)
-                dispatch(setStatusAC('succeeded'))
-            })
+                if (res.data.resultCode === RESULT_CODE.SUCCEDEED) {
+                    const action = updateTaskAC(taskId, domainModel, todolistId)
+                    dispatch(action)
+                    dispatch(setStatusAC('succeeded'))
+                }
+
+            }).catch((error => {
+            handleServerNetworkError(error, dispatch)
+        }))
     }
 
 // types
